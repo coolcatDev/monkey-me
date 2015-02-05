@@ -15,8 +15,7 @@ db = SQLAlchemy(app)
 
 from models import *
 
-# LOCAL CONFIG
-#app.config.from_object('config.BaseConfig')
+app.config.from_object('config.BaseConfig')
 
 # HEROKU CONFIG
 app.config.from_object(os.environ['APP_SETTINGS'])
