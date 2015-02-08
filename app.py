@@ -10,8 +10,6 @@ import os
 import sys
 import logging
 
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 
@@ -20,6 +18,9 @@ db = SQLAlchemy(app)
 from models import *
 
 app.config.from_object(os.environ['APP_SETTINGS'])
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 
 
