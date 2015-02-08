@@ -8,6 +8,10 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 import os
 import sys
+import logging
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 
