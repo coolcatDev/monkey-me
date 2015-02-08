@@ -113,7 +113,7 @@ def allList(page=1, sort=1):
             .add_column(user_bf.userName.label("best_friend_name"))
             .outerjoin(friendships, users.id == friendships.user_id)
             .outerjoin(user_bf, users.best_friend)
-            .group_by(users.id)
+            .group_by(users.id, user_bf.id)
             .order_by(test)
             .paginate(page, 6, False)
         )
