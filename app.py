@@ -371,11 +371,9 @@ def deleteAccount():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
     else:
-        # User
+        # target
         userToDelete = session['user_id']
-        oldAccountUser = users.query.filter_by(id=userToDelete).first()
-        db.session.delete(oldAccountUser)
-        db.session.commit()
+        
         # Friendships
         oldAccountFriendships1 = friendships.query.filter_by(
             user_id=userToDelete).all()
@@ -405,6 +403,11 @@ def deleteAccount():
         if oldBFFCheck:
             db.session.delete(oldBFFCheck)
             db.session.commit()
+        # delete user    
+        oldAccountUser = users.query.filter_by(id=userToDelete).first()
+        db.session.delete(oldAccountUser)
+        db.session.commit()
+        
         image = 'static/uploads/' + str(userToDelete) + '.jpg'
         os.remove(image)
         flash('"Account deleted"')
