@@ -335,32 +335,32 @@ def registering():
             flash('"Confirm password"')
             return render_template('register.html')
         
-            if userCheck3 == userCheck4:
-            	file = request.files['file']
-        	if file and allowed_file(file.filename):
-        	        newUser = users(userCheck, userCheck2, userCheck5, userCheck3)
-	                db.session.add(newUser)
-	                db.session.commit()
-	                userName = users.query.filter_by(
-	                    userName=userCheck, userPass=userCheck3).first()
-	                session['logged_in'] = True
-	                session['user_id'] = userName.id
-	                # image part
-	                filename = str(userName.id)
+	if userCheck3 == userCheck4:
+		file = request.files['file']
+		if file and allowed_file(file.filename):
+		        newUser = users(userCheck, userCheck2, userCheck5, userCheck3)
+		        db.session.add(newUser)
+		        db.session.commit()
+		        userName = users.query.filter_by(
+		            userName=userCheck, userPass=userCheck3).first()
+		        session['logged_in'] = True
+		        session['user_id'] = userName.id
+		        # image part
+		        filename = str(userName.id)
+		
+		        file.save(os.path.join(
+		            app.config['UPLOAD_FOLDER'],
+		            filename + ".jpg")
+		        )
+		        flash('"Registered Successfully"')
+		        return redirect(url_for('friendList'))
+		else:
+		    flash('"Add an image (.jpg)"')
+		    return render_template('register.html')
 	
-	                file.save(os.path.join(
-	                    app.config['UPLOAD_FOLDER'],
-	                    filename + ".jpg")
-	                )
-	                flash('"Registered Successfully"')
-	                return redirect(url_for('friendList'))
-                else:
-	            flash('"Add an image (.jpg)"')
-	            return render_template('register.html')
-	        
-            else:
-                flash('"Retype passwords"')
-                return render_template('register.html')
+	else:
+	flash('"Retype passwords"')
+	return render_template('register.html')
         
     else:
         return render_template('register.html')
