@@ -359,8 +359,8 @@ def registering():
 		    return render_template('register.html')
 	
 	else:
-	flash('"Retype passwords"')
-	return render_template('register.html')
+		flash('"Retype passwords"')
+		return render_template('register.html')
         
     else:
         return render_template('register.html')
