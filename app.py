@@ -358,7 +358,7 @@ def registering():
 			key = '%s.jpg' % filename
 			k = Key(bucket)
 			k.key = key
-			k.set_contents_from_filename(filename)
+			k.set_contents_from_filename(file.filename)
 
 
 		        #file.save(os.path.join(
