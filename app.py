@@ -364,7 +364,7 @@ def registering():
 		        #file.save(os.path.join(
 		         #   app.config['UPLOAD_FOLDER'],
 		          #  filename + ".jpg")
-		        )
+		        #)
 		        flash('"Registered Successfully"')
 		        return redirect(url_for('friendList'))
 		else:
