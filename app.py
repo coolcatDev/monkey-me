@@ -6,6 +6,9 @@ from flask import Flask, render_template, redirect, \
 
 from flask.ext.sqlalchemy import SQLAlchemy
 
+import boto
+from boto.s3.key import Key
+
 import os
 import sys
 import logging
@@ -347,10 +350,20 @@ def registering():
 		        session['user_id'] = userName.id
 		        # image part
 		        filename = str(userName.id)
-		
-		        file.save(os.path.join(
-		            app.config['UPLOAD_FOLDER'],
-		            filename + ".jpg")
+			
+			# S3_BUCKET, AWS_ACCESS_KEY & AWS_SECRET_KEY = HEROKU envar
+			conn = boto.connect_s3(AWS_ACCESS_KEY, AWS_SECRET_KEY)
+			bucket = conn.get_bucket(S3_BUCKET)
+			
+			key = '%s.jpg' % filename
+			k = Key(bucket)
+			k.key = key
+			k.set_contents_from_filename(file)
+
+
+		        #file.save(os.path.join(
+		         #   app.config['UPLOAD_FOLDER'],
+		          #  filename + ".jpg")
 		        )
 		        flash('"Registered Successfully"')
 		        return redirect(url_for('friendList'))
