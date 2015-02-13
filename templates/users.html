@@ -56,7 +56,7 @@
 	<div class="contentUserWrap">
 	{% if userList.items %}
 		{% for user in userList.items %}
-			<div class="contentUser" style="background-image:url(static/uploads/{{ user.users.id }}.jpg);">
+			<div class="contentUser" style="background-image:url(https://s3.amazonaws.com/monkey-me-avatars/{{ user.users.id }}.jpg);">
 				<div class="innerContents">
 					<a href="{{ url_for('profile', profileId=user.users.id) }}">
 						{{ user.users.userName }}
