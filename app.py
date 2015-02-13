@@ -106,7 +106,7 @@ def allList(page=1, sort=1):
         if sort == 1:
             test = users.userName
         if sort == 2:
-            test = user_bf.userName.desc()
+            test = user_bf.userName
         if sort == 3:
             test = db.func.count(friendships.user_id).desc()
         userList = (
@@ -487,14 +487,30 @@ def saveEditAccount():
                             newUser.userPhone = userCheck3
                             newUser.userPass = userCheck4
                             db.session.commit()
-                            image = 'static/uploads/' + str(profileID) + '.jpg'
-                            os.remove(image)
-                            filename = str(profileID)
-                            file.save(os.path.join(
-                                app.config['UPLOAD_FOLDER'],
-                                filename + ".jpg")
-                            )
-
+                            #image = 'static/uploads/' + str(profileID) + '.jpg'
+                            #os.remove(image)
+                            #filename = str(profileID)
+                            #file.save(os.path.join(
+                             #   app.config['UPLOAD_FOLDER'],
+                              #  filename + ".jpg")
+                            #)
+			    # image part
+		     	    filename = str(profileID)
+			
+			    # S3_BUCKET, AWS_ACCESS_KEY & AWS_SECRET_KEY = HEROKU envar from config.py
+			    conn = boto.connect_s3(app.config['AWS_ACCESS_KEY'], app.config['AWS_SECRET_KEY'])
+			    bucket = conn.get_bucket(app.config['S3_BUCKET'])
+			    bucket.delete_key(filename + '.jpg')	
+			    key = '%s.jpg' % filename
+			    k = Key(bucket)
+			    k.key = key
+			
+			    buff = cStringIO.StringIO()
+			
+			    buff.write(file.read())
+			    buff.seek(0)
+			    k.set_contents_from_file(buff)
+			    
                             flash('"Saved"')
                             return redirect(url_for('myProfile'))
                         else:
@@ -525,13 +541,31 @@ def saveEditAccount():
                         newUser.userPhone = userCheck3
                         newUser.userPass = userCheck4
                         db.session.commit()
-                        image = 'static/uploads/' + str(profileID) + '.jpg'
-                        os.remove(image)
-                        filename = str(profileID)
-                        file.save(os.path.join(
-                            app.config['UPLOAD_FOLDER'],
-                            filename + ".jpg")
-                        )
+                        #image = 'static/uploads/' + str(profileID) + '.jpg'
+                        #os.remove(image)
+                        #filename = str(profileID)
+                        #file.save(os.path.join(
+                         #   app.config['UPLOAD_FOLDER'],
+                          #  filename + ".jpg")
+                        #)
+		        # image part
+	     	        filename = str(profileID)
+		
+		        # S3_BUCKET, AWS_ACCESS_KEY & AWS_SECRET_KEY = HEROKU envar from config.py
+		        conn = boto.connect_s3(app.config['AWS_ACCESS_KEY'], app.config['AWS_SECRET_KEY'])
+		        bucket = conn.get_bucket(app.config['S3_BUCKET'])
+		         
+		        bucket.delete_key(filename + '.jpg')	
+		        key = '%s.jpg' % filename
+		        k = Key(bucket)
+		        k.key = key
+		
+	       	        buff = cStringIO.StringIO()
+		
+		        buff.write(file.read())
+		        buff.seek(0)
+		        k.set_contents_from_file(buff)
+
 
                         flash('"Saved"')
                         return redirect(url_for('myProfile'))
