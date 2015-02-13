@@ -47,7 +47,7 @@
 	<div class="contentUserWrap">
 	{% if userList.items %}
 		{% for friends in userList.items %}
-			<div class="contentUser" style="background-image:url(static/uploads/{{ friends.user_id }}.jpg);">
+			<div class="contentUser" style="background-image:url(https://s3.amazonaws.com/monkey-me-avatars/{{ friends.user_id }}.jpg);">
 				<div class="innerContents">
 					<a href="{{ url_for('profile', profileId=friends.user_id) }}">
 					{{ friends.userName }}
