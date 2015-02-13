@@ -8,7 +8,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 import boto
 from boto.s3.key import Key
-
+import cStringIO
 import os
 import sys
 import logging
@@ -358,8 +358,15 @@ def registering():
 			key = '%s.jpg' % filename
 			k = Key(bucket)
 			k.key = key
-			k.set_contents_from_filename(file.filename)
-
+			
+			
+			
+			
+			buff = cStringIO.StringIO()
+			
+			buff.write(file.read())
+			buff.seek(0)
+			k.set_contents_from_file(buff)
 
 		        #file.save(os.path.join(
 		         #   app.config['UPLOAD_FOLDER'],
